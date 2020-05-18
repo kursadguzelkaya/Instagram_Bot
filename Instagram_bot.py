@@ -181,11 +181,8 @@ class InstaBot:
 
 
 
-#username = input('username=')
-#password = input('password=')
-username = 'kursadguzelkaya'
-password = 'Kürşad2001.'
-
+username = input('username=')
+password = input('password=')
 
 my_bot = InstaBot(username,password)
 
