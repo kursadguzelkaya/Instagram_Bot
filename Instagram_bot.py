@@ -74,7 +74,7 @@ class InstaBot:
             #get names and put into a list
             links = scroll_box.find_elements_by_tag_name('a')
             for name in links:
-                if name.text !='' and name.text not in names:
+                if name.text not in names:
                     names.append(name.text)
                 
 
@@ -115,12 +115,17 @@ class InstaBot:
 
 
 
-    def get_unfollowers(self):
+    def get_unfollowers(self,profileowner):
 
-        #click profile button and go to profile page
-        navBar = self.driver.find_element_by_class_name('_47KiJ')
-        self.driver.execute_script('return arguments[0].lastChild',navBar)\
+        #write username of profile owner's
+        self.driver.find_element_by_xpath('//*[@id="react-root"]/section/nav/div[2]/div/div/div[2]/input')\
+            .send_keys(profileowner)
+        sleep(2)
+
+        #click the profile 
+        self.driver.find_element_by_xpath('//*[@id="react-root"]/section/nav/div[2]/div/div/div[2]/div[2]/div[2]/div/a[1]')\
             .click()
+        sleep(2)
 
 
         #get followers
@@ -134,11 +139,15 @@ class InstaBot:
 
         print(not_following_back)
 
-    def get_last_post(self):
+    def get_last_post(self,profileowner):
 
-        #click profile button and go to profile page
-        navBar = self.driver.find_element_by_class_name('_47KiJ')
-        self.driver.execute_script('return arguments[0].lastChild',navBar)\
+        #write username of profile owner's
+        self.driver.find_element_by_xpath('//*[@id="react-root"]/section/nav/div[2]/div/div/div[2]/input')\
+            .send_keys(profileowner)
+        sleep(2)
+
+        #click the profile 
+        self.driver.find_element_by_xpath('//*[@id="react-root"]/section/nav/div[2]/div/div/div[2]/div[2]/div[2]/div/a[1]')\
             .click()
         sleep(2)
 
@@ -163,10 +172,10 @@ class InstaBot:
 
         return likedBy
         
-    def find_ghost_followers(self):
+    def find_ghost_followers(self,profileowner):
         
         #get last post
-        self.get_last_post()
+        self.get_last_post(profileowner)
 
         #get liked by
         likedBy = self.get_liked_by()
@@ -183,10 +192,12 @@ class InstaBot:
 
 username = input('username=')
 password = input('password=')
+profileowner = input('profileowner=')
+
 
 my_bot = InstaBot(username,password)
 
 
-#my_bot.get_unfollowers()
+my_bot.get_unfollowers(profileowner)
 
-my_bot.find_ghost_followers()
+#my_bot.find_ghost_followers(profileowner)
